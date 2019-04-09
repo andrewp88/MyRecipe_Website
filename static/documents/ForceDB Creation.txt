@@ -1,0 +1,26 @@
+
+
+I was facing a similar problem in Django 1.10 and none of the above solutions worked for me.
+
+What eventually worked was running this command:
+
+python manage.py migrate --fake myappname zero
+
+This reset all migrations (to the zeroth state)
+
+This followed by :
+
+python manage.py migrate myappname
+
+created the tables for me.
+
+If you do not want to roll back to the initial(zero) state but say to the migration number 0005(the last migration that worked), you can instead do this:
+
+python manage.py migrate --fake myappname 0005
+
+And then proceed with the actual migrate:
+
+python manage.py migrate myappname
+
+More details in the docs
+shareimprove this answer
