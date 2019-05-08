@@ -12,39 +12,19 @@
 
 <body>
 
-
-	<nav class="navbar navbar-light" style="background-color:  #62eaee;" bg-light d-xs-block >
-		<div class="navbar-header">
-			 <a class="navbar-brand" href="#" style="">
-				<img src="../static/imgs/57291456-chef-hat-icon.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
-				HelloRecipes
-			</a>	
-		</div>
-		<div class="navbar-right">
-		 	<button class="navbar-toggler collapsed" type="button"  data-toggle="collapse" data-target="#myNavbar">
-		 	<span class="navbar-toggler-icon"></span>
-	      	 </button>
-	     </div>
-	</nav>
+	{% include 'navbar.html' %}
 
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-		  		<h1 class="" align="center" >Contenuto</h1>			 	
+                {% block content %}lalalal{% endblock %}
 			</div>
 		</div>
 
-		<footer class="footer">
-			<div class="container">
-				<span class="title">
-					contatti
-				</span>
-			</div>
-		</footer>
-		<!-- Footer -->
+    {% include 'footer.html' %}
 
-	
+
 	</div>
 
 
