@@ -4,3 +4,6 @@ from django.db import models
 
 class Category(models.Model):
     title = models.CharField(max_length=35)
+
+    def __str__(self):
+        return u'{0}'.format(self.title)

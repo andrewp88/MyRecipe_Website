@@ -20,3 +20,6 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
     )
 
+
+
+

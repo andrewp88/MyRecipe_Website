@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is a recipe creation page</h1>
+    <form action = '.' method='POST'> {% csrf_token %}
+        {{ form.as_p }}
+        {{ formset.as_p2}}
+        <input type = 'submit' value='Save' />
+    </form>
+
+
+{% endblock %}
