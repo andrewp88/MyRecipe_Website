@@ -1,25 +1,26 @@
 from django.shortcuts import render
 from .models import User
 from .forms import UserRegistrationForm, UserLoginForm
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import authenticate, login , get_user_model
+from django.contrib.auth import authenticate, login , get_user_model,logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.core.files.storage import FileSystemStorage
 
 User = get_user_model()
 
 
 
 def user_registration_view(request):
-    form = UserRegistrationForm(request.POST or None)
+    form = UserRegistrationForm(request.POST or None, request.FILES or None)
     context = {
         "form": form
     }
     if form.is_valid():
-        print(form.cleaned_data)
-        #data obtaining
+        myfile = request.FILES['profileImg']
+        fs = FileSystemStorage()
+        filename = fs.save('static/imgs/'+myfile.name, myfile)
+
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
@@ -28,7 +29,7 @@ def user_registration_view(request):
         dob = form.cleaned_data.get('dateofbirth')
         country = form.cleaned_data.get('country')
         #user creation
-        new_user = User.objects.create_user(name,surname,dob,username,country, email, password=password)
+        new_user = User.objects.create_user(name,surname,dob,username,country, email,profileImg=filename, password=password)
         print(new_user)
         return render(request, "users/account.html", context)
 
@@ -59,5 +60,13 @@ def user_login_view(request):
     form = UserLoginForm()
     return render(request, 'users/login.html', context)
 
+def user_account_view(request):
+    return render(request,"users/account.html")
 
 
+def user_logout_view(request):
+    logout(request)
+
+    print("the user has been logged out")
+
+    return redirect('/home')

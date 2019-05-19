@@ -8,7 +8,14 @@
 
 </head>
 <body>
-<h1>Contenuto Test {{ user.get_username }}, {{ user.email }}
+<h1>Contenuto Test
+    {% if user.is_authenticated %}
+    <li>User: {{ user.get_username }}</li>
+    {% else %}
+    <li>Not logged in</li>
+    {% endif %}
+
+
 
 </h1>
 

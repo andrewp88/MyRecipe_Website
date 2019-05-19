@@ -4,11 +4,11 @@
 
     <h1>REGISTRATION:</h1>
 
-<form action='.' method="POST"> {% csrf_token %}
+<form action='.' method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
 {{ form.as_p }}
 <input type='submit' value='Save' />
-</form>
+</form >
     <small class="text-muted">
     Arleady Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
     </small>

@@ -3,6 +3,7 @@ from .models import User
 from django.forms import ModelForm, PasswordInput
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, get_user_model
+from PIL import Image
 
 User = get_user_model()
 
@@ -55,6 +56,15 @@ class UserRegistrationForm(forms.ModelForm):
         if(passw!=passwC):
             raise forms.ValidationError("The two password must be equal")
         return passw
+
+    def clean_profileImg(self):
+        img=self.cleaned_data.get("profileImg")
+        im = Image.open(img)
+        im.verify()
+
+
+
+
 
 
 

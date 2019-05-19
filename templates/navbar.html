@@ -20,8 +20,14 @@
                         MENU
                     </a>
                     <div class="dropdown-menu">
+                        {% if request.user.is_authenticated %}
+                        <a class="dropdown-item" href="\account">Account</a>
+                        <a class="dropdown-item" href="\logout">Logout</a>
+
+                        {% else %}
                         <a class="dropdown-item" href="\login">Login</a>
                         <a class="dropdown-item" href="\registration">Registration</a>
+                        {% endif %}
 
                     </div>
                 </li>

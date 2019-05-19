@@ -28,22 +28,17 @@
                 {%  endif %}
                 {% block content %}content block error{% endblock %}
 
-				{% if user.is_authenticated %}
-				 <li>User: {{ user.get_username }}</li>
-			   {% else %}
-				 <li>Not logged in</li>
-			   {% endif %}
+
 
 
 			</div>
 		</div>
 
 
-
-    {% include 'footer.html' %}
-
+		{% include 'footer.html' %}
 
 	</div>
+
 
 
 
@@ -57,4 +52,5 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
+
 </html>
