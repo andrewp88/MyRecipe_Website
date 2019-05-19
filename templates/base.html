@@ -28,6 +28,13 @@
                 {%  endif %}
                 {% block content %}content block error{% endblock %}
 
+				{% if user.is_authenticated %}
+				 <li>User: {{ user.get_username }}</li>
+			   {% else %}
+				 <li>Not logged in</li>
+			   {% endif %}
+
+
 			</div>
 		</div>
 
