@@ -6,9 +6,14 @@ from django.forms import modelformset_factory
 
 class RecipeCreateForm(forms.ModelForm):
     title = forms.CharField(
-        label='',
+        label='Title',
         widget=forms.TextInput(attrs={"placeholder": "Your recipe title"}),
         required=True
+    )
+    mainImage=forms.ImageField(
+        label="Recipe Presentation Image:",
+        widget=forms.FileInput(),
+        required=False,
     )
     portions = forms.CharField(
         label='Portions',
@@ -19,19 +24,21 @@ class RecipeCreateForm(forms.ModelForm):
         required=True,
         widget=forms.Textarea(
             attrs={
-                "placeholder": "Your description",
+                "placeholder": "2 eggs \n30g of sugar \n300ml of skimmed milk",
                 "class": "new-class-name two",
                 "id": "my-id-for-textarea",
-                "rows": 2,
-                'cols': 10
+                "rows": 5,
+                'cols': 6
             }
         )
     )
     prepTime = forms.DecimalField(
+        label='Preparation time',
         initial=0,
         widget=forms.NumberInput(attrs={'step':'1','min':'0','max':'300'})
     )
     cookTime = forms.DecimalField(
+        label='Cooking time',
         initial=0,
         widget=forms.NumberInput(attrs={'step':'1','min':'0','max':'300'})
     )
@@ -41,11 +48,14 @@ class RecipeCreateForm(forms.ModelForm):
         choices=difficulties
     )
     shared = forms.BooleanField(initial=False,
+        label="Public recipe",
         required=False,
-        widget = forms.CheckboxInput()
+        widget = forms.CheckboxInput(),
     )
-    fk_category = forms.ModelChoiceField(queryset=Category.objects.all(),
-        initial=0
+    fk_category = forms.ModelChoiceField(
+        label='Recipe Category',
+        queryset=Category.objects.all(),
+        initial=0,
     )
 
     def __init__(self, *args, **kwargs):
@@ -56,23 +66,43 @@ class RecipeCreateForm(forms.ModelForm):
         model = Recipe
         fields = [
             'title',
+            'mainImage',
             'ingredients',
             'prepTime',
             'cookTime',
             'difficulty',
             'portions',
-            'shared',
             'fk_category',
+            'shared',
         ]
 
-StepModelFormset = modelformset_factory(
-    Step,
-    fields=('description','img1','img2',),
-    extra=1,
-    widgets={
-        'description': forms.TextInput(attrs={
-            'class':'form-control',
-            'placeholder':'Enter the step description here'
-        })
-    }
-)
+
+class StepCreateForm(forms.ModelForm):
+    description = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={
+            'placeholder':'Write the preparation step of the recipe here'
+            })
+    )
+    img1 = forms.ImageField(
+        label="Load an image of the preparation step",
+        error_messages={'invalid': "Image files only"},
+        widget=forms.FileInput(),
+        required=False)
+    img2 = forms.ImageField(
+        label="Load an image of the preparation step",
+        error_messages={'invalid': "Image files only"},
+        widget=forms.FileInput(),
+        required=False)
+
+    class Meta:
+        model = Step
+        fields = [
+            'description',
+            'img1',
+            'img2',
+        ]
+
+
+
+StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=1)
