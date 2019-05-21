@@ -2,9 +2,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <h1>This is a recipe creation page</h1>
-    <form  enctype="multipart/form-data" action = '.' method='POST'> {% csrf_token %}
-        {{ form | crispy }}
+    <form  enctype="multipart/form-data" action = '.' method='POST'>
         {% csrf_token %}
+        {{ form | crispy }}
         {{ formset.management_form }}
         {% for f in formset %}
         <h5 class="mt-2">Write the steps to prepare your delicious meal</h5>

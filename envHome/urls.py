@@ -24,3 +24,4 @@ urlpatterns = [
     path('recipe/',include('recipe.urls')),
     path('admin/', admin.site.urls),
 ]
+
