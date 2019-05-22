@@ -38,3 +38,10 @@ def new_recipe_view(request,*args,**kwargs):
         context = {'form':form,
                    'formset': formset}
     return render(request,'recipe/new_recipe.html',context)
+
+
+def my_recipe_view(request):
+    return render(request,'recipe/myRecipe.html')
+
+def saved_recipe_view(request):
+    return render(request,'recipe/savedRecipe.html')

@@ -5,11 +5,35 @@
     width: 100%;
     height: 60px;
     line-height: 60px;
-    background-color: #62eaee;
+    background-color: #f4fcff;
 }
 
 body{
     margin-bottom: 80px;
 }
+
+.dropdown-content {
+    right: 0;
+}
+
+#dropdownMenuLink{
+    background: #FFFFFF;
+    color: #f93;
+    font-weight: bold;
+}
+
+.navbar-title{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.navbar-brand{
+    width:auto;
+}
+
+.navbar-header{
+    width:auto;
+}
+
 
 

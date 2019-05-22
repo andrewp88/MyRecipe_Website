@@ -67,6 +67,4 @@ def user_account_view(request):
 def user_logout_view(request):
     logout(request)
 
-    print("the user has been logged out")
-
     return redirect('/home')
