@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-light" style="background-color:  #62eaee;" bg-light d-xs-block >
+        <div class="navbar-header">
+            <a class="navbar-brand" href="\home" style="">
+                <img src="../static/imgs/57291456-chef-hat-icon.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+                HelloRecipes
+            </a>
+        </div>
+        <div class="nav navbar-right">
+
+            <ul class="nav navbar-right">
+                <li class="nav-item dropdown">
+                    <a class=" dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        MENU
+                    </a>
+                    <div class="dropdown-menu">
+                        {% if request.user.is_authenticated %}
+                        <a class="dropdown-item" href="\account">Account</a>
+                        <a class="dropdown-item" href="\logout">Logout</a>
+
+                        {% else %}
+                        <a class="dropdown-item" href="\login">Login</a>
+                        <a class="dropdown-item" href="\registration">Registration</a>
+                        {% endif %}
+
+                    </div>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </nav>
+</body>
+</html>

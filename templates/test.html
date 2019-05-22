@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<h1>Contenuto Test
+    {% if user.is_authenticated %}
+    <li>User: {{ user.get_username }}</li>
+    {% else %}
+    <li>Not logged in</li>
+    {% endif %}
+
+
+
+</h1>
+
+</body>
+
+</html>
+
+{% endblock %}

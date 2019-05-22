@@ -7,3 +7,13 @@
     line-height: 60px;
     background-color: #62eaee;
 }
+
+body{
+    margin-bottom: 80px;
+}
+
+
+
+ .page-footer {
+     background-color: blue;
+ }
