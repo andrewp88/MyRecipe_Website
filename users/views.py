@@ -17,9 +17,12 @@ def user_registration_view(request):
         "form": form
     }
     if form.is_valid():
-        myfile = request.FILES['profileImg']
-        fs = FileSystemStorage()
-        filename = fs.save('static/imgs/'+myfile.name, myfile)
+        if (request.FILES):
+            myfile = request.FILES['profileImg']
+            fs = FileSystemStorage()
+            filename = fs.save('users/'+myfile.name, myfile)
+        else:
+            filename= 'users/not-user.png'
 
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
@@ -30,7 +33,8 @@ def user_registration_view(request):
         country = form.cleaned_data.get('country')
         #user creation
         new_user = User.objects.create_user(name,surname,dob,username,country, email,profileImg=filename, password=password)
-        print(new_user)
+        login(request, new_user)
+
         return render(request, "users/account.html", context)
 
     return render(request, "users/user_registration.html", context)

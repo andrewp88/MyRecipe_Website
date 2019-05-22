@@ -41,7 +41,7 @@ class User(AbstractBaseUser):
     dateofbirth = models.DateField()
     registrationDate = models.DateField().auto_now_add
     username=models.CharField(max_length=70)
-    profileImg = models.ImageField(upload_to='../static/imgs',default='/static/imgs/not-user.jpg')
+    profileImg = models.ImageField(upload_to='users/',default='users/not-user.png')
     country = models.CharField(max_length=35 , default="Europe")
     email = models.EmailField(unique=True)
     admin=models.BooleanField(default=False)

@@ -18,7 +18,7 @@ class UserRegistrationForm(forms.ModelForm):
     email=forms.EmailField()
     password=forms.CharField(widget=forms.PasswordInput)
     passwordCheck=forms.CharField(label="Confirm password",widget=forms.PasswordInput)
-    profileImg = forms.ImageField(label="Profile Image",initial='/static/imgs/not-user.jpg')
+    profileImg = forms.ImageField(label="Profile Image",initial='media/imgs/users/not-user.png')
 
 
     class Meta:
