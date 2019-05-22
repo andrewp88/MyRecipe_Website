@@ -1,5 +1,5 @@
 .footer {
-    position: sticky;
+    position: fixed;
     left: 0px;
     bottom: 0;
     width: 100%;
@@ -13,7 +13,3 @@ body{
 }
 
 
-
- .page-footer {
-     background-color: blue;
- }
