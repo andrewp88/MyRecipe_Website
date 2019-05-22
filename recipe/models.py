@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Recipe(models.Model):
-    mainImage = models.ImageField()
+    mainImage = models.ImageField(upload_to='recipes/titleImgs/')
     title = models.CharField (max_length=50)
     difficulty = models.DecimalField(max_digits=1,decimal_places=0)
     prepTime = models.DecimalField(max_digits=3,decimal_places=0)
@@ -19,4 +19,7 @@ class Recipe(models.Model):
         'categories.Category',
         on_delete=models.CASCADE,
     )
+
+
+
 

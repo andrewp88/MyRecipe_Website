@@ -45,7 +45,10 @@ INSTALLED_APPS = [
     'steps',
     'categories',
     'pages',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,3 +137,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+MEDIA_URL = '/media/imgs/'
+MEDIA_ROOT = os.path.join(BASE_DIR,"media/imgs")
+
