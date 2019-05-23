@@ -2,7 +2,11 @@
 
 {% block content %}
 
-
+    {% if recipe_list %}
+        {% for recipe in recipe_list %}
+         <p>{{recipe.title}}</p>
+        {% endfor %}
+    {% endif %}
     <h1>my recipes</h1>
     <small class="text-muted">
         Would you add a new recipe? <a class="ml-2" href="{% url 'newrecipe' %}"> Click here</a>
