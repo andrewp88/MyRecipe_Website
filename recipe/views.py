@@ -5,6 +5,8 @@ from users.models import User
 from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.shortcuts import render
 from steps.models import Step
 # Create your views here.
 
@@ -54,10 +56,12 @@ def my_recipe_view(request):
     if request.user.is_authenticated:
         userId = request.user.id
         queryset = Recipe.objects.filter(fk_user_id=userId)
+        paginator = Paginator(queryset, 3)
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
         context = {
-            "recipe_list":queryset
+            "recipe_list":recipes
         }
-        print(queryset)
         return render(request,'recipe/myRecipe.html',context)
     else:
         raise PermissionDenied
