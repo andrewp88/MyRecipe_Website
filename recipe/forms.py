@@ -104,19 +104,6 @@ class StepCreateForm(forms.ModelForm):
         ]
 
 
-def handleRecipeImageUpload(f): #CHECK IF THE IMAGE UPLOADED IS AN IMAGE, AND SAVES THE IMAGE IN THE PATH, OTHERWISE RETURN NONE
-    if (f):
-        p = 'static/imgs/recipes/'+f.name.upper
-        if (f.name.upper.endswith('.PNG') or (f.name.upper.endswith('.JPG'))):
-            with open(p, 'wb+') as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
-                return p
-
-        else:
-            return None
-    else:
-        return None
 
 
 

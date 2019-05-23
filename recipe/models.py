@@ -21,5 +21,6 @@ class Recipe(models.Model):
     )
 
 
-
+    def view_thumbnail(self):
+        print ("<a>",{self.title},"</a>")
 
