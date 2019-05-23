@@ -56,7 +56,7 @@ def my_recipe_view(request):
     if request.user.is_authenticated:
         userId = request.user.id
         queryset = Recipe.objects.filter(fk_user_id=userId)
-        paginator = Paginator(queryset, 3)
+        paginator = Paginator(queryset, 9)
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
         context = {
