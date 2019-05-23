@@ -30,8 +30,8 @@ class UserRegistrationForm(forms.ModelForm):
                 'country',
                 'username',
                 'email',
-                'passwordCheck',
                 'password',
+                'passwordCheck',
                 'profileImg',
             ]
 
@@ -71,7 +71,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserLoginForm(forms.Form):
-    username=forms.CharField(label='username')
+    username=forms.CharField(label='Email')
     password=forms.CharField(widget=forms.PasswordInput)
 
     class Meta:

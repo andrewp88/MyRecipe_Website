@@ -1,7 +1,8 @@
 -CONTROLLO AUTENTICAZIONE SU PAGINE CHE NECESSITA IL LOGIN, ES: /ACCOUNT
 -GESTIONE CARTELLE E NOMI FILE PER UTENTI E RECIPE
 
--login interface--> username/email
--cambiare ENTRA una volta loggato
--cambiare ordine di password and confirm password
+
+
 -immagine tonda
+
+webpassw tool
