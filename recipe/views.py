@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import RecipeCreateForm, StepModelFormset
+from .forms import RecipeCreateForm, StepModelFormset, SearchForm
 from users.models import User
 from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
@@ -68,5 +68,14 @@ def my_recipe_view(request):
 
 
 def saved_recipe_view(request):
-    context = {}
+    form = SearchForm(request.GET)
+    recipes=[]
+
+    if(request.GET.get("searchInput")):
+        if form.is_valid():
+            searchInput=request.GET["searchInput"]
+            recipes = Recipe.objects.filter(title=searchInput)
+
+    context = {"form":form,"recipes":recipes}
     return render(request,'recipe/savedRecipe.html',context)
+
