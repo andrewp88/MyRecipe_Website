@@ -4,7 +4,16 @@
 
 
     <h1>saved recipes</h1>
+    <form id="searchform" action="." method="get">  {% csrf_token %}
+        {{form}}
 
+        <input type="submit" />
+    </form>
 
+    {% for recipe in recipes %}
+        <div>
+            {{recipe.title}} {{recipe.prepTime}}
+        </div>
+    {% endfor %}
 
 {% endblock %}
