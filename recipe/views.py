@@ -6,7 +6,7 @@ from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404 , redirect
 from steps.models import Step
 # Create your views here.
 
@@ -186,3 +186,31 @@ def querySetCreation(searchInput):
     print("querySet:",querySet)
     counter=0
     return querySet
+
+def detail_recipe_view(request,my_id):
+    if request.user.is_authenticated:
+        recipe = get_object_or_404(Recipe,id=my_id)
+        if (recipe.shared or (recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
+            context = {
+                "recipe":recipe
+            }
+            return render(request,"recipe/recipeDetail.html",context)
+        else:
+            raise PermissionDenied
+    else:
+        raise PermissionDenied
+
+
+def delete_recipe_view(request,my_id):
+    if request.user.is_authenticated:
+        recipe = get_object_or_404(Recipe,id=my_id)
+        if (recipe.fk_user.id == request.user.id): #checks if the user have the authorization to delete or view that recipe.
+            context ={
+                "recipe":recipe
+            }
+            if request.method == "POST":  #check the user to confirm the deletion of the recipe
+                recipe.delete()
+                return redirect("../../../myrecipe")
+            return render(request,"recipe/recipeDelete.html",context)
+    else:
+        raise PermissionError

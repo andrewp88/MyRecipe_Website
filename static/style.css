@@ -38,3 +38,10 @@ body{
 #profile-img {
     border-radius: 50%;
 }
+
+.card-title-orange{
+    color:#ff5e00;
+}
+.card-title-orange:hover{
+    color:#dd0d09;
+}
