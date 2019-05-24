@@ -5,3 +5,10 @@
 -cambiare ENTRA una volta loggato
 -cambiare ordine di password and confirm password
 -immagine tonda
+
+
+
+
+RECIPES:
+-Modifica model-> Aggiungere campo: Data di inserimento ricetta
+-
