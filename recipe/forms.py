@@ -117,4 +117,4 @@ class StepCreateForm(forms.ModelForm):
 
 
 
-StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=-1)
+StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=1)

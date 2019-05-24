@@ -10,9 +10,10 @@
                             {% for recipe in recipe_list %}
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="card">
-                                        <img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image">
+                                        <a href=""><img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
                                         <div class="card-body">
-                                            <h4 class="card-title"><a href="" title="View Product">{{ recipe.title }}</a></h4>
+                                            <h4 class="card-title"><a class="card-title-orange" href="" title="View Product">{{ recipe.title }}</a></h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Recipe written by: <a href="">{{recipe.fk_user.username}}</a></h6>
                                             <div class="row">
                                                 <div class="col">
                                                     {% if recipe.difficulty == 1 %}
@@ -45,11 +46,11 @@
                                             </p>
 
                                             <div class="row">
-                                                <div class="col-6">
-                                                    <p class="btn btn-danger btn-block">Delete Recipe</p>
+                                                <div class="col-8">
+
                                                 </div>
-                                                <div class="col-6">
-                                                    <p class="btn btn-info btn-block">Show Details</p>
+                                                <div class="col-4">
+                                                    <p class="btn btn-danger btn-block">Delete</p>
                                                 </div>
                                             </div>
                                         </div>
