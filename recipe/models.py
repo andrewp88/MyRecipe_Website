@@ -21,4 +21,6 @@ class Recipe(models.Model):
     )
 
 
+    def get_absolute_url(self):
+        return f"/recipe/{self.id}"
 
