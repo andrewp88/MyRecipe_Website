@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import RecipeCreateForm, StepModelFormset
+from .forms import RecipeCreateForm, StepModelFormset, SearchForm
 from users.models import User
 from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.shortcuts import render
 from steps.models import Step
 # Create your views here.
 
@@ -54,15 +56,26 @@ def my_recipe_view(request):
     if request.user.is_authenticated:
         userId = request.user.id
         queryset = Recipe.objects.filter(fk_user_id=userId)
+        paginator = Paginator(queryset, 9)
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
         context = {
-            "recipe_list":queryset
+            "recipe_list":recipes
         }
-        print(queryset)
         return render(request,'recipe/myRecipe.html',context)
     else:
         raise PermissionDenied
 
 
 def saved_recipe_view(request):
-    context = {}
+    form = SearchForm(request.GET)
+    recipes=[]
+
+    if(request.GET.get("searchInput")):
+        if form.is_valid():
+            searchInput=request.GET["searchInput"]
+            recipes = Recipe.objects.filter(title=searchInput)
+
+    context = {"form":form,"recipes":recipes}
     return render(request,'recipe/savedRecipe.html',context)
+

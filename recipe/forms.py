@@ -4,6 +4,16 @@ from categories.models import Category
 from steps.models import Step
 from django.forms import modelformset_factory
 
+class SearchForm(forms.Form):
+    searchInput=forms.CharField(
+        label="",
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Title, category, ingredients.."}))
+    class Meta:
+        fields=[
+            'searchInput'
+        ]
+
 class RecipeCreateForm(forms.ModelForm):
     title = forms.CharField(
         label='Title',
