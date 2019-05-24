@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+<form id="searchform" action="." method="get">  {% csrf_token %}
+    {{form}}
+
+    <input type="submit" />
+</form>
+
+{% for recipe in recipe_list %}
+<div>
+    {{recipe.title}} {{recipe.prepTime}}
+</div>
+{% endfor %}
+
+<div class="row">
+    <div class="col">
+        <div class="pagination">
+                    <span class="step-links">
+                        {% if recipe_list.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ recipe_list.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ recipe_list.number }} of {{ recipe_list.paginator.num_pages }}.
+                        </span>
+
+                        {% if recipe_list.has_next %}
+                            <a href="?page={{ recipe_list.next_page_number }}">next</a>
+                            <a href="?page={{ recipe_list.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+
+{% endblock %}

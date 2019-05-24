@@ -68,14 +68,121 @@ def my_recipe_view(request):
 
 
 def saved_recipe_view(request):
+    if request.user.is_authenticated:
+        form = SearchForm(request.GET)
+        recipes=[]
+
+        if(request.GET.get("searchInput")):
+            if form.is_valid():
+                searchInput=request.GET["searchInput"]
+                recipes = Recipe.objects.filter(title__icontains=searchInput)
+
+        context = {"form":form,"recipes":recipes}
+        return render(request,'recipe/savedRecipe.html',context)
+    else:
+        raise PermissionDenied
+
+def homepage(request):
     form = SearchForm(request.GET)
-    recipes=[]
+    querySet=[]
 
     if(request.GET.get("searchInput")):
         if form.is_valid():
             searchInput=request.GET["searchInput"]
-            recipes = Recipe.objects.filter(title=searchInput)
+            querySet=splitSearchInput(searchInput)
 
-    context = {"form":form,"recipes":recipes}
-    return render(request,'recipe/savedRecipe.html',context)
+    else: querySet=Recipe.objects.filter(shared=True)
 
+    paginator = Paginator(querySet, 12)
+    page = request.GET.get('page')
+    recipe_list = paginator.get_page(page)
+
+    context = {"form":form,"recipe_list":recipe_list}
+    return render(request,'recipe/homepage.html',context)
+
+def splitSearchInput(searchInput):
+    searchInp=searchInput.replace(" ", "")
+    print(searchInp)
+    result= searchInp.split(",")
+    return querySetCreation(result)
+
+def querySetCreation(searchInput):
+    counter=0;
+    print("searchInput: ",searchInput)
+    querySetU=Recipe.objects.none() #querySetUnion che mi servirà per mettere insieme i risultati di tutti gli input
+    querySetInt=Recipe.objects.none() #querySetIntersection per gestire le intersection
+
+    if(len(searchInput)==1): #caso in cui c'è solo un elemento nella barra di ricerca
+        print("input: ",searchInput[0])
+        querySetT = Recipe.objects.filter(title__icontains=searchInput[0])
+        querySetC = Recipe.objects.filter(fk_category__title__icontains=searchInput[0])
+        querySetI = Recipe.objects.filter(ingredients__icontains=searchInput[0])
+        querySetIU =querySetT.union(querySetC).union(querySetI)
+        querySetU= querySetU.union(querySetIU)
+
+
+    else:
+        for input in searchInput: #per ogni elemento nella barra di ricerca
+                print("INPUT: ",input)
+                querySetT = Recipe.objects.filter(title__icontains=input) #querySet confrontato con tutti i titoli
+                querySetI = Recipe.objects.filter(ingredients__icontains=input)#querySet confrontato con tutti gli ingredienti
+
+                if(not querySetInt.count()): #se il set di intersection è vuoto, quindi all'inizio
+                    print("querySetNone")
+                    if(querySetT.count() and querySetI.count()): #se entrambi sono pieni
+                        querySetInt=querySetT.union(querySetI) #faccio un intersection
+                        print("querySetInt both T and I full:", querySetInt)
+                    elif(querySetI.count()): #se solo uno dei due è pieno setto il querySetIntersection a quello
+                        querySetInt=querySetI
+                        print("querySetInt solo I è full:", querySetI)
+
+                    elif(querySetT.count()):
+                        querySetInt=querySetT
+                        print("querySetInt solo T è full:", querySetT)
+                else: #caso in cui il quesrySetInt non sia vuoto
+                    print("querySetInt è stato settato")
+
+                    if(querySetT.count() or querySetI.count()):
+                        print("querySetInt è stato settato T o I sono pieni")
+
+                        querySetCheckT=querySetInt.intersection(querySetT)
+                        print("intersezione con I:",querySetCheckT)
+
+
+                        querySetCheckI=querySetInt.intersection(querySetI)
+                        print("intersezione con T: ",querySetCheckI)
+
+                        if(querySetCheckT.count() and querySetCheckI.count()):
+                            querySetCheckFinal=querySetInt.intersection(querySetCheckT).intersection(querySetCheckI)
+                            if(querySetCheckFinal.count()):
+                                querySetInt=querySetCheckFinal
+                            else:
+                                counter=0
+                                querySetInt=Recipe.objects.none()
+                                return querySetInt
+                        elif(querySetCheckT.count()):
+                            counter+=1
+                            querySetInt=querySetCheckT
+                        elif(querySetCheckI.count()):
+                            counter+=1
+                            querySetInt=querySetCheckI
+                        else:
+                            counter=0
+                            querySetInt=Recipe.objects.none()
+                            return querySetInt
+                    else:
+                        counter=0
+                        querySetInt=Recipe.objects.none()
+                        return querySetInt
+
+
+
+
+        if(counter>0):
+            querySetU=querySetInt
+
+
+    querySet=querySetU.filter(shared=True)
+    print("querySet:",querySet)
+    counter=0
+    return querySet
