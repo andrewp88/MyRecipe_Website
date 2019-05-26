@@ -1,7 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h5>{{recipe.title}}</h5>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <img style="" class="img-fluid rounded" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                   <h1 class="card-title-orange text-left mt-2">{{ recipe.title|capfirst }}</h1>
+                </div>
+                <div class="col-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-2"></div>
+                <div class="col-1 border-top">
+                     <img src="{{ recipe.fk_user.profileImg.url }}" class="rounded-circle img-fluid" alt="Submitted by">
+                </div>
+                <div class="col-7 border-top">
+                   <h5 class="text-left mt-2">Written by : {{ recipe.fk_user.username }}</h5>
+                </div>
+                <div class="col-2"></div>
+        </div>
+    </div>
 
 
 {% endblock %}

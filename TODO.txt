@@ -1,15 +1,34 @@
 -CONTROLLO AUTENTICAZIONE SU PAGINE CHE NECESSITA IL LOGIN, ES: /ACCOUNT
 
 
+RECIPES-CARDS:
+-aggiungere redirect per lo user nelle recipe thumbnail
+
 PAGINATION:
 -se non ci sono recipes, togliere completamente il paginator
 
 RECIPES:
 -Modifica model-> Aggiungere campo: Data di inserimento ricetta
 
+VIEWS:
+-homepage view-> aggiungere order by data di inserimento per thumbnails di default
+
+WEB PAGES:
+-Detail recipe
+-Detail user from external user
+-Deletion page graphical re-design , apply boostrap on form
+
+
+SEARCH:
+-Security limit al numero di elementi da cercare per impedire DOS attacks
+
+
 EXTRA TIME:
 -Aggiungere la possibilita per tutti gli utenti di vedere il profilo di altri user in modo pubblico (ricette condivise pubblicamente)
+-Icona cestino nel recipe thumbnail
 
+GRAPHICS:
+-fixare la navbar nella versione mobile!
 
 
 

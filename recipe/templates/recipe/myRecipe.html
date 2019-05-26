@@ -10,7 +10,7 @@
                             {% for recipe in recipe_list %}
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="card">
-                                        <a href=""><img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
+                                        <a href="{{recipe.get_absolute_url}}"><img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
                                         <div class="card-body">
                                             <h4 class="card-title"><a class="card-title-orange" href="{{recipe.get_absolute_url}}" title="View Product">{{ recipe.title }}</a></h4>
                                             <h6 class="card-subtitle mb-2 text-muted">Recipe written by: <a href="">{{recipe.fk_user.username}}</a></h6>
@@ -50,7 +50,7 @@
 
                                                 </div>
                                                 <div class="col-5">
-                                                    <p class="btn btn-danger btn-block">Delete</p>
+                                                    <a  href="{{recipe.get_absolute_url}}/delete"class="btn btn-danger btn-block">Delete</a>
                                                 </div>
                                             </div>
                                         </div>

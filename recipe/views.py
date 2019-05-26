@@ -188,15 +188,12 @@ def querySetCreation(searchInput):
     return querySet
 
 def detail_recipe_view(request,my_id):
-    if request.user.is_authenticated:
-        recipe = get_object_or_404(Recipe,id=my_id)
-        if (recipe.shared or (recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
-            context = {
-                "recipe":recipe
-            }
-            return render(request,"recipe/recipeDetail.html",context)
-        else:
-            raise PermissionDenied
+    recipe = get_object_or_404(Recipe,id=my_id)
+    if (recipe.shared or ( request.user.is_authenticated and recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
+        context = {
+            "recipe":recipe
+        }
+        return render(request,"recipe/recipeDetail.html",context)
     else:
         raise PermissionDenied
 
