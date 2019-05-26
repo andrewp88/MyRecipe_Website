@@ -14,17 +14,14 @@
 </head>
 
 <body>
-
-
-
 	<div class="container-fluid">
         {% include 'navbar.html' %}
 
         <div class="row">
-            <div class="col-md-2 col-sm-0">col md-2</div>
+            <div class="col-md-2 col-sm-0"></div>
 			<div class="col-md-8">
 					{% if messages %}
-                    {%for message in messages  %}
+                    {% for message in messages  %}
                         <div class="alert alert-{{ message.tags }}">
                         	{{ message }}
                         </div>
@@ -33,7 +30,7 @@
                 {%  endif %}
                 {% block content %}content block error{% endblock %}
 			</div>
-            <div class="col-md-2 col-sm-0">col md-2</div>
+            <div class="col-md-2 col-sm-0"></div>
 
         </div>
                 
