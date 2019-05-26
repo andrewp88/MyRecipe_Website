@@ -1,6 +1,5 @@
 -CONTROLLO AUTENTICAZIONE SU PAGINE CHE NECESSITA IL LOGIN, ES: /ACCOUNT
 
-
 RECIPES-CARDS:
 -aggiungere redirect per lo user nelle recipe thumbnail
 
@@ -9,6 +8,7 @@ PAGINATION:
 
 RECIPES:
 -Modifica model-> Aggiungere campo: Data di inserimento ricetta
+-aggiungere un link che rimandi alle mie ricette nella pagina di ogni ricetta
 
 VIEWS:
 -homepage view-> aggiungere order by data di inserimento per thumbnails di default

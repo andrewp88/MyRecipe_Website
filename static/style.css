@@ -24,7 +24,7 @@ body{
 
 .navbar-title{
     font-weight: lighter;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 .navbar-brand{
@@ -45,3 +45,4 @@ body{
 .card-title-orange:hover{
     color:#dd0d09;
 }
+

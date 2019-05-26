@@ -71,5 +71,6 @@ class User(AbstractBaseUser):
       #  super(User, self).save(*args, **kwargs)
 
 
-
+    def get_absolute_url(self):
+        return f"/user/{self.id}"
 

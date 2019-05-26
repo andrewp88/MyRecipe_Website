@@ -47,7 +47,8 @@ def new_recipe_view(request,*args,**kwargs):
                     'formset': formset}
         return render(request,'recipe/new_recipe.html',context)
     else:
-        raise PermissionDenied
+        messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
+        return redirect('/login')
 
 
 
@@ -64,7 +65,8 @@ def my_recipe_view(request):
         }
         return render(request,'recipe/myRecipe.html',context)
     else:
-        raise PermissionDenied
+        messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
+        return redirect('/login')
 
 
 def saved_recipe_view(request):
@@ -80,16 +82,34 @@ def saved_recipe_view(request):
         context = {"form":form,"recipes":recipes}
         return render(request,'recipe/savedRecipe.html',context)
     else:
-        raise PermissionDenied
+        messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
+        return redirect('/login')
+
+def userRecipe(request,my_id):
+    user = get_object_or_404(User,id=my_id)
+    queryset = Recipe.objects.filter(fk_user_id=my_id)
+    paginator = Paginator(queryset, 9)
+    page = request.GET.get('page')
+    recipes = paginator.get_page(page)
+    context = {
+        "recipe_list":recipes
+    }
+    return render(request,"recipe/userRecipe.html",context)
 
 def homepage(request):
     form = SearchForm(request.GET)
     querySet=[]
+    arraySearch=[]
 
     if(request.GET.get("searchInput")):
         if form.is_valid():
             searchInput=request.GET["searchInput"]
-            querySet=splitSearchInput(searchInput)
+            arraySearch=splitSearchInput(searchInput)
+            if(len(arraySearch)>5):
+                messages.add_message(request, messages.INFO, 'You can search up to 5 words.')
+                return redirect('/home')
+            else:
+                querySet=querySetCreation(arraySearch)
 
     else: querySet=Recipe.objects.filter(shared=True)
 
@@ -102,9 +122,8 @@ def homepage(request):
 
 def splitSearchInput(searchInput):
     searchInp=searchInput.replace(" ", "")
-    print(searchInp)
     result= searchInp.split(",")
-    return querySetCreation(result)
+    return result
 
 def querySetCreation(searchInput):
     counter=0;
@@ -211,3 +230,4 @@ def delete_recipe_view(request,my_id):
             return render(request,"recipe/recipeDelete.html",context)
     else:
         raise PermissionError
+

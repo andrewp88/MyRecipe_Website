@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
+
 
 User = get_user_model()
 
@@ -65,7 +67,11 @@ def user_login_view(request):
     return render(request, 'users/login.html', context)
 
 def user_account_view(request):
-    return render(request,"users/account.html")
+    if(request.user.is_authenticated):
+        return render(request,"users/account.html")
+    else:
+        messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
+        return redirect('/login')
 
 
 def user_logout_view(request):

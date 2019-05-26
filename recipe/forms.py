@@ -4,8 +4,10 @@ from categories.models import Category
 from steps.models import Step
 from django.forms import modelformset_factory
 
+
 class SearchForm(forms.Form):
     searchInput=forms.CharField(
+        max_length="50",
         label="",
         required=False,
         widget=forms.TextInput(attrs={"placeholder": "Title, category, ingredients.."}))
