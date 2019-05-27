@@ -10,7 +10,7 @@ class SearchForm(forms.Form):
         max_length="50",
         label="",
         required=False,
-        widget=forms.TextInput(attrs={"placeholder": "Title, category, ingredients..", "class":"form-control form-control-sm mr-3"}))
+        widget=forms.TextInput(attrs={"placeholder": "Title, category, ingredients..", "class":"form-control form-control mr-3"}))
     class Meta:
         fields=[
             'searchInput'

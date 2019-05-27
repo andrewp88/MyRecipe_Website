@@ -12,10 +12,10 @@
             <div class="row">
 
                 <div class="col-4">
-                    <img  class="img-fluid" id="profile-img" src="{{ user.profileImg.url }}" alt="Recipe Main Image"></a>
+                    <img  class="img-fluid" id="profile-img" src="{{ recipeUser.profileImg.url }}" alt="Recipe Main Image"></a>
                 </div>
                 <div class="col mt-3">
-                    <h3 >{{user.username}}</h3>
+                    <h3 >{{recipeUser.username}}</h3>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
             </div>
         </div>
     </div>
-
+    {% if recipe_list and recipe_list.paginator.num_pages > 1 %}
     <div class="row">
         <div class="col">
             <div class="pagination">
@@ -99,6 +99,8 @@
                 </span>
             </div>
         </div>
+    </div>
+    {% endif %}
 
 </div>
 

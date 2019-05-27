@@ -3,12 +3,22 @@
 {% block content %}
 
 
-    <h1>saved recipes</h1>
-    <form id="searchform" action="." method="get">  {% csrf_token %}
-        {{form}}
+    <h1 id="pageTitle">Saved recipes</h1>
+    <div class="row">
+        <div class="col">
+            <form  id="searchform" action="." method="get">  {% csrf_token %}
+                <div class="row">
+                    <div class="col" id="colSearch">
+                        {{form}}
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-warning btn-rounded my-0" id="searchButton" type="submit">Search</button>
+                    </div>
 
-        <input type="submit" />
-    </form>
+                </div>
+            </form>
+        </div>
+    </div>
 
     {% for recipe in recipes %}
         <div>
@@ -16,4 +26,9 @@
         </div>
     {% endfor %}
 
+        <!--{% if recipe_list and recipe_list.paginator.num_pages > 1 %}
+
+                paginator
+            {%endif%}
+               -->
 {% endblock %}
