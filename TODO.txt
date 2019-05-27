@@ -1,37 +1,48 @@
--CONTROLLO AUTENTICAZIONE SU PAGINE CHE NECESSITA IL LOGIN, ES: /ACCOUNT
-
-RECIPES-CARDS:
--aggiungere redirect per lo user nelle recipe thumbnail
-
 PAGINATION:
 -se non ci sono recipes, togliere completamente il paginator
 
 RECIPES:
 -Modifica model-> Aggiungere campo: Data di inserimento ricetta
+-vedere se si può limitare il numero di ingrediente mostrati nei quadrati delle ricette
+-sistemare la suddivisione degli ingrediente (split(","))
+-aggiungere la possibilità di salvare una recipe
+-modificare username nell'elenco delle ricette di un singolo user, mostra il current user e non lo user  che ha creato la ricetta
+-FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET!!
+
+DETAILRECIPE:
+-sistemare icona minuscola versione mobile in detail recipe
 -aggiungere un link che rimandi alle mie ricette nella pagina di ogni ricetta
+-aggiungere la possibilità di cancellare una ricetta da qui
+
+MYRECIPE:
+-spostare la possibilità di aggiungere una nuova ricetta nella pagine myRecipe
+-aggiungere barra di ricerca alla pagina myRecipe
+-aggiungere titolo "myrecipe"
+-quando lo user nella schermata di myrecipe schiaccia sul creatore della ricetta (=se stesso) reindirizzarlo al suo account
+
+SAVEDRECIPE:
+-applicare la stessa barra della homepage
+-togliere il titolo--> centrarlo, lettere maiuscolo, colorarlo
 
 VIEWS:
 -homepage view-> aggiungere order by data di inserimento per thumbnails di default
-
-WEB PAGES:
--Detail recipe
--Detail user from external user
--Deletion page graphical re-design , apply boostrap on form
-
-
-SEARCH:
--Security limit al numero di elementi da cercare per impedire DOS attacks
-
+-modificare account page --> ridesign
 
 EXTRA TIME:
--Aggiungere la possibilita per tutti gli utenti di vedere il profilo di altri user in modo pubblico (ricette condivise pubblicamente)
 -Icona cestino nel recipe thumbnail
 
-GRAPHICS:
--fixare la navbar nella versione mobile!
+FOOTER:
+-aggiungere un testo serio al footer + redesign
 
+NAVBAR:
+-redisegn -->color?
+-navbar dispositivi piccolissimi 
 
-
+GENERICS:
+-fissare lunghezza minima password
+-ingrandire la barra di ricerca e colorare il bottone e cambiare il nome del bottone --> aggiungere frase/messaggio quando non c'è nessun risultato per la ricerca
+-aggiungere collegamento alla pagina di creazione di una nuova ricetta nel menù della navbar
+-rendere i titoli delle pagine scalabili
 
 APPUNTI:
 
