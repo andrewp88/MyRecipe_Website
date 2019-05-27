@@ -45,3 +45,20 @@ body{
 .card-title-orange:hover{
     color:#dd0d09;
 }
+
+.authorName{
+    color:#696969;
+}
+.authorName:hover{
+    text-decoration: none;
+    color:#696969;
+}
+
+.recipeSubTitle{
+    color:#D3D3D3;
+}
+
+.recipeImage{
+    width: auto;
+    height:auto;
+}

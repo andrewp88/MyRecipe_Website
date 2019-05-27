@@ -5,26 +5,71 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <img style="" class="img-fluid rounded" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
-            </div>
-            <div class="col-2"></div>
-        </div>
-        <div class="row">
                 <div class="col-2"></div>
                 <div class="col-8">
-                   <h1 class="card-title-orange text-left mt-2">{{ recipe.title|capfirst }}</h1>
-                </div>
-                <div class="col-2"></div>
-        </div>
-        <div class="row">
-                <div class="col-2"></div>
-                <div class="col-1 border-top">
-                     <img src="{{ recipe.fk_user.profileImg.url }}" class="rounded-circle img-fluid" alt="Submitted by">
-                </div>
-                <div class="col-7 border-top">
-                   <h5 class="text-left mt-2">Written by : {{ recipe.fk_user.username }}</h5>
+                    <div class="row">
+                        <div class="col-2 border-top  pt-2 pb-2">
+                            <img src="{{ recipe.fk_user.profileImg.url }}" class="rounded-circle img-fluid" alt="Submitted by">
+                        </div>
+                        <div class="col border-top  pt-2 pb-2">
+                            <h5 class="text-left mt-3"><a class="authorName" href="">{{ recipe.fk_user.username }}</a></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img style="" class="img-fluid rounded" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
+                        </div>
+                    </div>
+                    <div class ="row">
+                        <div class="col border-bottom pb-2">
+                            <h1 class="card-title-orange text-left mt-2">{{ recipe.title|capfirst }}</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="recipeSubTitle">Ingredients</h5>
+                            <p> {{recipe.ingredients}}</p>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="recipeSubTitle text-right">Portions</h5>
+                            <p class="text-right"> {{recipe.portions}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="recipeSubTitle">Preparation Time</h5>
+                            <p> {{recipe.prepTime}} min.</p>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="recipeSubTitle text-right">Cooking Time</h5>
+                            <p class="text-right"> {{recipe.cookTime}} min.</p>
+                        </div>
+                    </div>
+                    {% for step in steps %}
+                    <div class="row border-bottom pb-2">
+                        <div class="row">
+                            <div class="col-1">
+                                <div class="btn btn-secondary"> {{forloop.counter}} </div>
+                            </div>
+                            <div class="col">
+                                <p class="ml-4">{{step.description}}</p>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            {% if step.img1 %}
+                                <div class="col-5">
+                                    <img class="img-fluid recipeImage" src="{{step.img1.url}}" alt="Step 1">
+                                </div>
+                            {% endif %}
+                            {% if step.img2 %}
+                                <div class="col-5 ml-3">
+                                    <img  class="img-fluid recipeImage" src="{{step.img2.url}}" alt="Step 2">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
                 </div>
                 <div class="col-2"></div>
         </div>

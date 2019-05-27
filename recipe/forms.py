@@ -88,6 +88,7 @@ class RecipeCreateForm(forms.ModelForm):
 
 
 class StepCreateForm(forms.ModelForm):
+
     description = forms.CharField(
         label="",
         widget=forms.TextInput(attrs={
@@ -117,4 +118,7 @@ class StepCreateForm(forms.ModelForm):
 
 
 
-StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=1)
+
+def getStepModelFormset():
+    StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=1,min_num=1,max_num=6)
+    return StepModelFormset

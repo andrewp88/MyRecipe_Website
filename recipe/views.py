@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import RecipeCreateForm, StepModelFormset, SearchForm
+from .forms import RecipeCreateForm, getStepModelFormset, SearchForm
 from users.models import User
 from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
@@ -8,14 +8,17 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render , get_object_or_404 , redirect
 from steps.models import Step
+from django.views.decorators.cache import cache_control
 # Create your views here.
 
+@cache_control(no_cache=True,must_revalidate=True,private=True)
 def new_recipe_view(request,*args,**kwargs):
     if (request.user.is_authenticated):
         userId = request.user.id
         if request.method == 'POST':
             form = RecipeCreateForm(request.POST or None,request.FILES or None)
-            formset = StepModelFormset(request.POST or None,request.FILES or None)
+            formset = getStepModelFormset(request.POST or None,request.FILES or None)
+            formset = formset(initial=[])
             if form.is_valid() and formset.is_valid():
                 recipe = form.save(commit=False)
                 recipe.fk_user = User.objects.get(id=userId)
@@ -31,7 +34,8 @@ def new_recipe_view(request,*args,**kwargs):
                         step.recipe = rec
                         step.order = stepNumber
                         step.save()
-                        formset = StepModelFormset()
+                        formset = getStepModelFormset()
+                        formset = formset()
                     else:
                         print (f.non_field_errors())
                         messages.error(request,"error")
@@ -42,7 +46,8 @@ def new_recipe_view(request,*args,**kwargs):
                 print("INVALID FORM OR TOTAL FORMSET")
         else:
             form = RecipeCreateForm()
-            formset = StepModelFormset()
+            formset = getStepModelFormset()
+            formset = formset()
         context = {'form':form,
                     'formset': formset}
         return render(request,'recipe/new_recipe.html',context)
@@ -189,9 +194,11 @@ def querySetCreation(searchInput):
 
 def detail_recipe_view(request,my_id):
     recipe = get_object_or_404(Recipe,id=my_id)
+    steps = Step.objects.filter(recipe__id=my_id).order_by('id')
     if (recipe.shared or ( request.user.is_authenticated and recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
         context = {
-            "recipe":recipe
+            "recipe":recipe,
+            "steps":steps
         }
         return render(request,"recipe/recipeDetail.html",context)
     else:
