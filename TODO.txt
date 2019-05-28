@@ -1,6 +1,6 @@
 RECIPES:
--aggiungere la possibilità di salvare una recipe
--FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET!!
+-aggiungere la possibilitï¿½ di salvare una recipe
+-mettere che l'utente veda un messaggio in detail recipe view quando non inserisce uno step
 
 SAVED RECIPE:
 -modify search
@@ -10,6 +10,7 @@ NAVBAR:
 
 GENERICS:
 -rendere i titoli delle pagine scalabili
+-LOGIN WRONG DATA, MESSAGE AND REDIRECT FIX
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 APPUNTI:

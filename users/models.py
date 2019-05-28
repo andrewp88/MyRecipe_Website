@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
+from recipe.models import Recipe
 
 
 # Create your models here.
@@ -46,6 +47,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True)
     admin=models.BooleanField(default=False)
     active=models.BooleanField(default=True)
+    savedRecipes = models.ManyToManyField(Recipe)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
