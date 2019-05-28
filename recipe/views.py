@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import RecipeCreateForm, getStepModelFormset, SearchForm
+from .forms import RecipeCreateForm, StepCreateFormSet , SearchForm
 from users.models import User
 from recipe.models import Recipe
 from django.core.exceptions import PermissionDenied
@@ -8,52 +8,12 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render , get_object_or_404 , redirect
 from steps.models import Step
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.cache import cache_control
 # Create your views here.
-
-@cache_control(no_cache=True,must_revalidate=True,private=True)
-def new_recipe_view(request,*args,**kwargs):
-    if (request.user.is_authenticated):
-        userId = request.user.id
-        if request.method == 'POST':
-            form = RecipeCreateForm(request.POST or None,request.FILES or None)
-            formset = getStepModelFormset(request.POST or None,request.FILES or None)
-            formset = formset(initial=[])
-            if form.is_valid() and formset.is_valid():
-                recipe = form.save(commit=False)
-                recipe.fk_user = User.objects.get(id=userId)
-                recipe.save()
-                rec = Recipe.objects.filter(fk_user_id=recipe.fk_user.id).filter(title=recipe.title).last()
-                #FORMSET TESTING BEGIN
-                stepNumber = 0
-                for f in formset:
-                    if f.is_valid():
-                        stepNumber +=1
-                        print("FORMSET IS VALID Description:")
-                        step = f.save(commit=False)
-                        step.recipe = rec
-                        step.order = stepNumber
-                        step.save()
-                        formset = getStepModelFormset()
-                        formset = formset()
-                    else:
-                        print (f.non_field_errors())
-                        messages.error(request,"error")
-                        print("INVALID FORM IN FORMSET")
-                #FORMSET TESTING END
-                return HttpResponseRedirect('../myrecipe/')
-            else:
-                print("INVALID FORM OR TOTAL FORMSET")
-        else:
-            form = RecipeCreateForm()
-            formset = getStepModelFormset()
-            formset = formset()
-        context = {'form':form,
-                    'formset': formset}
-        return render(request,'recipe/new_recipe.html',context)
-    else:
-        messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
-        return redirect('/login')
 
 
 
@@ -260,4 +220,37 @@ def delete_recipe_view(request,my_id):
             return render(request,"recipe/recipeDelete.html",context)
     else:
         raise PermissionError
+
+
+class RecipeCreateView(LoginRequiredMixin,CreateView):
+    template_name = "recipe/new_recipe.html"
+    model = Recipe
+    form_class = RecipeCreateForm
+    #fields = ['mainImage','title','ingredients','portions','fk_category','difficulty','prepTime','cookTime','shared']
+    success_url = reverse_lazy('myrecipe')
+
+    def get_context_data(self, **kwargs): #gets the data from the formset
+        data = super(RecipeCreateView,self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['steps'] = StepCreateFormSet(self.request.POST,self.request.FILES or None)
+        else:
+            data['steps']= StepCreateFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        steps = context['steps']
+        with transaction.atomic():
+            self.object = form.save(commit=False)
+            self.object.fk_user = self.request.user
+            self.object.save()
+
+            if steps.is_valid():
+                steps.instance = self.object
+                steps.save()
+            else:
+                print("INVALID STEPS FORM")
+        return super(RecipeCreateView,self).form_valid(form)
+
+
 
