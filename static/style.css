@@ -73,6 +73,25 @@ body{
     color: #d20f00;
 }
 
+.heart{
+    color: #9996aa;
+}
+
+.heart:hover{
+    color: #d20f00;
+}
+
+#arrow{
+    background: #9dcf48;
+    color:#f1fff7;
+}
+
+.heartjs{
+    alignment: right;
+    color: #d20f00;
+    background: #d20f00;
+}
+
 .card-title-orange{
     color:#ff5e00;
 }

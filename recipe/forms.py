@@ -36,7 +36,7 @@ class RecipeCreateForm(forms.ModelForm):
         required=True,
         widget=forms.Textarea(
             attrs={
-                "placeholder": "2 eggs \n30g of sugar \n300ml of skimmed milk",
+                "placeholder": "2 eggs,30g of sugar,300ml of skimmed milk",
                 "class": "new-class-name two",
                 "id": "my-id-for-textarea",
                 "rows": 5,
@@ -122,5 +122,5 @@ class StepCreateForm(forms.ModelForm):
 
 
 def getStepModelFormset():
-    StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=1,min_num=1,max_num=6)
+    StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=0,min_num=0,max_num=0)
     return StepModelFormset

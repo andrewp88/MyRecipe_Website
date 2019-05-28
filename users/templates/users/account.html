@@ -2,13 +2,22 @@
 
 {% block content %}
 
-<dl class="row">
-    <dt class="col-sm-3"> <h1>My Account</h1></dt>
-    <dd class="col-sm-9"></dd>
+<div class="row">
+    <div class="col" id="pageTitle">
+        <h1>My Account</h1>
+    </div>
 
-    <dt class="col-sm-3"><img src="{{user.profileImg.url}}" id="profile-img" class="img-fluid" alt="Italian Trulli"></dt>
-    <dd class="col-sm-9"> </dd>
+</div>
+<div class="row" >
+    <div class="col-4 ">
+        <img src="{{user.profileImg.url}}" id="profile-img" class="img-fluid" alt="Italian Trulli">
+    </div>
+    <div class="col" align="right">
+        <a  href="/myrecipe"class="btn btn-lg"><i class="fas fa-arrow-square-right" id="arrow">My Recipes</i></a>
+    </div>
+</div>
 
+<div class="row">
     <dt class="col-sm-3">Name:</dt>
     <dd class="col-sm-9">{{user.name}}</dd>
 
@@ -28,7 +37,10 @@
 
     <dt class="col-sm-3 text-truncate">Email:</dt>
     <dd class="col-sm-9">{{user.email}}</dd>
-</dl>
+
+</div>
+
+
 
 
 

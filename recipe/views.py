@@ -17,39 +17,22 @@ def new_recipe_view(request,*args,**kwargs):
         userId = request.user.id
         if request.method == 'POST':
             form = RecipeCreateForm(request.POST or None,request.FILES or None)
-            formset = getStepModelFormset(request.POST or None,request.FILES or None)
-            formset = formset(initial=[])
-            if form.is_valid() and formset.is_valid():
+            formset = getStepModelFormset()
+            formset = formset(request.POST or None,request.FILES or None)
+            if form.is_valid():
                 recipe = form.save(commit=False)
                 recipe.fk_user = User.objects.get(id=userId)
                 recipe.save()
                 rec = Recipe.objects.filter(fk_user_id=recipe.fk_user.id).filter(title=recipe.title).last()
-                #FORMSET TESTING BEGIN
-                stepNumber = 0
-                for f in formset:
-                    if f.is_valid():
-                        stepNumber +=1
-                        print("FORMSET IS VALID Description:")
-                        step = f.save(commit=False)
-                        step.recipe = rec
-                        step.order = stepNumber
-                        step.save()
-                        formset = getStepModelFormset()
-                        formset = formset()
-                    else:
-                        print (f.non_field_errors())
-                        messages.error(request,"error")
-                        print("INVALID FORM IN FORMSET")
-                #FORMSET TESTING END
+
                 return HttpResponseRedirect('../myrecipe/')
             else:
                 print("INVALID FORM OR TOTAL FORMSET")
         else:
             form = RecipeCreateForm()
-            formset = getStepModelFormset()
-            formset = formset()
+
         context = {'form':form,
-                    'formset': formset}
+                    }
         return render(request,'recipe/new_recipe.html',context)
     else:
         messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
@@ -72,8 +55,9 @@ def my_recipe_view(request):
                     messages.add_message(request, messages.INFO, 'You can search up to 5 words.')
                     return redirect('/home')
                 else:
-                    querysetTem=querySetCreation(arraySearch)
-                    queryset=querysetTem.filter(fk_user_id=userId)
+                    querySetS=Recipe.objects.filter(fk_user_id=userId)
+                    querySetTem=querySetCreation(arraySearch).order_by('-id')
+                    queryset=querySetS.intersection(querySetTem)
                     if(not queryset.count()):
                         messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
 
@@ -112,7 +96,7 @@ def saved_recipe_view(request):
 
 def userRecipe(request,my_id):
     user = get_object_or_404(User,id=my_id)
-    queryset = Recipe.objects.filter(fk_user_id=my_id)
+    queryset = Recipe.objects.filter(fk_user_id=my_id).order_by('-id')
     paginator = Paginator(queryset, 9)
     page = request.GET.get('page')
     recipes = paginator.get_page(page)
@@ -135,10 +119,11 @@ def homepage(request):
                 messages.add_message(request, messages.INFO, 'You can search up to 5 words.')
                 return redirect('/home')
             else:
-                querySet=querySetCreation(arraySearch).filter(shared=True)
+                querySetS=Recipe.objects.filter(shared=True)
+                querySetTem=querySetCreation(arraySearch).order_by('-id')
+                querySet=querySetS.intersection(querySetTem)
 
-
-    else: querySet=Recipe.objects.filter(shared=True)
+    else: querySet=Recipe.objects.filter(shared=True).order_by('-id')
     if(not querySet.count()):
         messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
 
@@ -225,8 +210,6 @@ def querySetCreation(searchInput):
                         return querySetInt
 
 
-
-
         if(counter>0):
             querySetU=querySetInt
 
@@ -247,6 +230,7 @@ def detail_recipe_view(request,my_id):
         raise PermissionDenied
 
 
+
 def delete_recipe_view(request,my_id):
     if request.user.is_authenticated:
         recipe = get_object_or_404(Recipe,id=my_id)
@@ -260,4 +244,16 @@ def delete_recipe_view(request,my_id):
             return render(request,"recipe/recipeDelete.html",context)
     else:
         raise PermissionError
+
+
+def saveRecipe(request,id_recipe):
+    if request.user.is_authenticated:
+        recipe = get_object_or_404(Recipe,id=id_recipe)
+        user=request.user
+        user.recipes.add(recipe)
+
+        #recipe_list=user.recipes.all()
+
+    return redirect(request, "/home")
+
 

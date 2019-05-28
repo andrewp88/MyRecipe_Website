@@ -9,6 +9,7 @@ urlpatterns = [
     path('home/',views.homepage,name='homepage'),
     path('recipe/<int:my_id>/',views.detail_recipe_view,name="recipe"),
     path('recipe/<int:my_id>/delete/',views.delete_recipe_view,name="deleterecipe"),
-    path('user/<int:my_id>/',views.userRecipe,name="userRecipe")
+    path('user/<int:my_id>/',views.userRecipe,name="userRecipe"),
+    path('(recipe/?P<recipe>\d+)/$',views.saveRecipe, name="saveRecipe")
 
 ]
