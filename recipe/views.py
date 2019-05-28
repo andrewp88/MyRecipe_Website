@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.views.decorators.cache import cache_control
 # Create your views here.
 
@@ -223,15 +224,20 @@ def delete_recipe_view(request,my_id):
         raise PermissionError
 
 
-def saveRecipe(request,id_recipe):
+def saveRecipe(request,my_id): #ADD A RECIPE TO SAVED OR REMOVES IT FROM SAVED
     if request.user.is_authenticated:
-        recipe = get_object_or_404(Recipe,id=id_recipe)
+        recipe = get_object_or_404(Recipe,id=my_id)
         user=request.user
-        user.recipes.add(recipe)
+        html = "empty"
+        if( user.savedRecipes.filter(id=recipe.id).exists()):
+            user.savedRecipes.remove(recipe)
+            html = "<h1>removed</h1>"
+        else:
+            user.savedRecipes.add(recipe)
+            html = "<h1>saved</h1>"
+    return HttpResponse(html)
 
-        #recipe_list=user.recipes.all()
 
-    return redirect(request, "/home")
 class RecipeCreateView(LoginRequiredMixin,CreateView):
     template_name = "recipe/new_recipe.html"
     model = Recipe
