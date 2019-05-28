@@ -1,20 +1,9 @@
 RECIPES:
--vedere se si può limitare il numero di ingrediente mostrati nei quadrati delle ricette
--sistemare la suddivisione degli ingrediente (split(","))
--aggiungere la possibilità di salvare una recipe
+-aggiungere la possibilitï¿½ di salvare una recipe
 -mettere che l'utente veda un messaggio in detail recipe view quando non inserisce uno step
 
-DETAILRECIPE:
--sistemare icona minuscola versione mobile in detail recipe
--aggiungere un link che rimandi alle mie ricette nella pagina di ogni ricetta
--aggiungere la possibilità di cancellare una ricetta da qui
-
-MYRECIPE:
--controllare querySet filtrato nelle singole view della pagina (lascialo a me,so cosa intendo)
-
-VIEWS:
--homepage view-> aggiungere order by data di inserimento per thumbnails di default
--modificare account page --> ridesign
+SAVED RECIPE:
+-modify search
 
 NAVBAR:
 -navbar dispositivi piccolissimi 
@@ -27,3 +16,6 @@ GENERICS:
 APPUNTI:
 webpassw tool
 Pagination : https://docs.djangoproject.com/en/2.2/topics/pagination/
+
+TEST:
+quando non viene inserita la descrizione il form penso risulti non valido e quindi non salva nessuno step
