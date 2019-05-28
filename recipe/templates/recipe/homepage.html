@@ -70,9 +70,8 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col" align="right">
-                                                    <a  href="" class="btn heart" ><i class="fa fa-heart fa-lg align-middle"></i></a>
+                                                    <a  href="" class="btn heart" data-recipe-id="{{ recipe.id }}" ><i class="fa fa-heart fa-lg align-middle"></i></a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -108,5 +107,24 @@
 
 </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $(".heart").click(function(){
+      recipeid = $(".heart").data("recipe-id");
+      alert(recipeid);
+        $.ajax({
+          type:"POST",
+          url:"recipe/"+recipeid+"/save",
+          data: "{'parameter1': '44906'}",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          success: function(data) { alert("success") },
+          error: function(ts) { alert(ts.responseText) }
+        })
+  });
+});
+</script>
 
 {% endblock %}
+

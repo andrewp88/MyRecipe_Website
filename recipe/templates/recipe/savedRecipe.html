@@ -2,33 +2,90 @@
 
 {% block content %}
 
-
-    <h1 id="pageTitle">Saved recipes</h1>
-    <div class="row">
-        <div class="col">
-            <form  id="searchform" action="." method="get">  {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 id="pageTitle">Saved recipes</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <div class="row">
-                    <div class="col" id="colSearch">
-                        {{form}}
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-warning btn-rounded my-0" id="searchButton" type="submit">Search</button>
-                    </div>
+                        {% if recipe_list %}
+                            {% for recipe in recipe_list %}
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="card mt-2">
+                                        <a href="{{recipe.get_absolute_url}}"><img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
+                                        <div class="card-body">
+                                            <h4 class="card-title"><a class="card-title-orange" href="{{recipe.get_absolute_url}}" title="View Product">{{ recipe.title }}</a></h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Recipe written by: <a href="\account">{{recipe.fk_user.username}}</a></h6>
+                                            <div class="row">
+                                                <div class="col">
+                                                    {% if recipe.difficulty == 1 %}
+                                                        <div class="progress mb-2"  style="height: 20px;">
+                                                          <div class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Very Easy</div>
+                                                        </div>
+                                                    {% elif recipe.difficulty == 2 %}
+                                                        <div class="progress mb-2"  style="height: 20px;">
+                                                          <div class="progress-bar bg-info" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">Easy</div>
+                                                        </div>
+                                                    {% elif recipe.difficulty == 3 %}
+                                                        <div class="progress mb-2"  style="height: 20px;">
+                                                          <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Medium</div>
+                                                        </div>
+                                                    {% elif recipe.difficulty == 4 %}
+                                                        <div class="progress mb-2"  style="height: 20px;">
+                                                          <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">Hard</div>
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="progress mb-2"  style="height: 20px;">
+                                                          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Very Hard</div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <p class="card-text">
+                                                <span class="font-weight-bold">Preparation Time</span>: {{ recipe.prepTime }} min.
+                                                <br>
+                                                <span class="font-weight-bold">Cooking Time</span>: {{ recipe.cookTime }} min.
+                                            </p>
 
+                                            <div class="row">
+                                                <div class="col" align="right">
+                                                    <a  href="" class="btn heartjs" ><i class="fa fa-heart fa-lg align-middle"></i></a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                 </div>
-            </form>
+            </div>
         </div>
+        {% if recipe_list and recipe_list.paginator.num_pages > 1 %}
+        <div class="row">
+            <div class="col">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if recipe_list.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ recipe_list.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ recipe_list.number }} of {{ recipe_list.paginator.num_pages }}.
+                        </span>
+
+                        {% if recipe_list.has_next %}
+                            <a href="?page={{ recipe_list.next_page_number }}">next</a>
+                            <a href="?page={{ recipe_list.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-
-    {% for recipe in recipes %}
-        <div>
-            {{recipe.title}} {{recipe.prepTime}}
-        </div>
-    {% endfor %}
-
-        <!--{% if recipe_list and recipe_list.paginator.num_pages > 1 %}
-
-                paginator
-            {%endif%}
-               -->
 {% endblock %}
