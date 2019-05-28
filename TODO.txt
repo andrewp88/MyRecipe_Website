@@ -1,9 +1,8 @@
 RECIPES:
--Modifica model-> Aggiungere campo: Data di inserimento ricetta
 -vedere se si può limitare il numero di ingrediente mostrati nei quadrati delle ricette
 -sistemare la suddivisione degli ingrediente (split(","))
 -aggiungere la possibilità di salvare una recipe
--FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET!!
+-mettere che l'utente veda un messaggio in detail recipe view quando non inserisce uno step
 
 DETAILRECIPE:
 -sistemare icona minuscola versione mobile in detail recipe
@@ -22,6 +21,7 @@ NAVBAR:
 
 GENERICS:
 -rendere i titoli delle pagine scalabili
+-LOGIN WRONG DATA, MESSAGE AND REDIRECT FIX
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 APPUNTI:

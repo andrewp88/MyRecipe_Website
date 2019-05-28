@@ -108,7 +108,7 @@ body{
 }
 
 .recipeSubTitle{
-    color:#D3D3D3;
+    color:#898484;
 }
 
 .recipeImage{
@@ -117,3 +117,9 @@ body{
 }
 
 .img-center {margin:0 auto;}
+
+
+.img-fluid-max-height{
+    max-width: 100%;
+    max-height: 600px;
+}
