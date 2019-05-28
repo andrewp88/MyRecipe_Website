@@ -61,11 +61,28 @@ def new_recipe_view(request,*args,**kwargs):
 def my_recipe_view(request):
     if request.user.is_authenticated:
         userId = request.user.id
-        queryset = Recipe.objects.filter(fk_user_id=userId)
+        queryset=Recipe.objects.filter(fk_user_id=userId)
+
+        form = SearchForm(request.GET)
+        if(request.GET.get("searchInput")):
+            if form.is_valid():
+                searchInput=request.GET["searchInput"]
+                arraySearch=splitSearchInput(searchInput)
+                if(len(arraySearch)>5):
+                    messages.add_message(request, messages.INFO, 'You can search up to 5 words.')
+                    return redirect('/home')
+                else:
+                    querysetTem=querySetCreation(arraySearch)
+                    queryset=querysetTem.filter(fk_user_id=userId)
+                    if(not queryset.count()):
+                        messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
+
+
         paginator = Paginator(queryset, 9)
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
         context = {
+            "form":form,
             "recipe_list":recipes
         }
         return render(request,'recipe/myRecipe.html',context)
@@ -83,6 +100,9 @@ def saved_recipe_view(request):
             if form.is_valid():
                 searchInput=request.GET["searchInput"]
                 recipes = Recipe.objects.filter(title__icontains=searchInput)
+                if(not recipes.count()):
+                    messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
+
 
         context = {"form":form,"recipes":recipes}
         return render(request,'recipe/savedRecipe.html',context)
@@ -97,6 +117,7 @@ def userRecipe(request,my_id):
     page = request.GET.get('page')
     recipes = paginator.get_page(page)
     context = {
+        "recipeUser":user,
         "recipe_list":recipes
     }
     return render(request,"recipe/userRecipe.html",context)
@@ -114,9 +135,13 @@ def homepage(request):
                 messages.add_message(request, messages.INFO, 'You can search up to 5 words.')
                 return redirect('/home')
             else:
-                querySet=querySetCreation(arraySearch)
+                querySet=querySetCreation(arraySearch).filter(shared=True)
+
 
     else: querySet=Recipe.objects.filter(shared=True)
+    if(not querySet.count()):
+        messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
+
 
     paginator = Paginator(querySet, 12)
     page = request.GET.get('page')
@@ -206,10 +231,8 @@ def querySetCreation(searchInput):
             querySetU=querySetInt
 
 
-    querySet=querySetU.filter(shared=True)
-    print("querySet:",querySet)
     counter=0
-    return querySet
+    return querySetU
 
 def detail_recipe_view(request,my_id):
     recipe = get_object_or_404(Recipe,id=my_id)

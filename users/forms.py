@@ -16,7 +16,7 @@ class UserRegistrationForm(forms.ModelForm):
     country= forms.CharField(initial="Europe")
     username=forms.CharField()
     email=forms.EmailField()
-    password=forms.CharField(widget=forms.PasswordInput)
+    password=forms.CharField(widget=forms.PasswordInput,min_length=5)
     passwordCheck=forms.CharField(label="Confirm password",widget=forms.PasswordInput)
     profileImg = forms.ImageField(label="Profile Image",initial='media/imgs/users/not-user.png')
 

@@ -8,14 +8,14 @@
 <div class="container">
 
         <div class="row">
-            <div class="col">
-                <form id="searchform" action="." method="get">  {% csrf_token %}
-                    <div class="row">
-                        <div class="col-9">
+            <div class="col" >
+                <form  id="searchform" action="." method="get">  {% csrf_token %}
+                    <div class="row" >
+                        <div class="col" id="colSearch">
                             {{form}}
                         </div>
-                        <div class="col-3">
-                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
+                        <div class="col-2" >
+                            <button class="btn btn-outline-warning btn-rounded my-0" id="searchButton" type="submit">Search</button>
                         </div>
 
                     </div>
@@ -76,27 +76,30 @@
                 </div>
             </div>
         </div>
+        {% if recipe_list and recipe_list.paginator.num_pages > 1 %}
 
-<div class="row">
-    <div class="col">
-        <div class="pagination">
+
+        <div class="row">
+            <div class="col">
+                <div class="pagination">
                     <span class="step-links">
                         {% if recipe_list.has_previous %}
                             <a href="?page=1">&laquo; first</a>
                             <a href="?page={{ recipe_list.previous_page_number }}">previous</a>
                         {% endif %}
-
                         <span class="current">
                             Page {{ recipe_list.number }} of {{ recipe_list.paginator.num_pages }}.
                         </span>
-
                         {% if recipe_list.has_next %}
                             <a href="?page={{ recipe_list.next_page_number }}">next</a>
                             <a href="?page={{ recipe_list.paginator.num_pages }}">last &raquo;</a>
                         {% endif %}
                     </span>
+                </div>
+            </div>
         </div>
-    </div>
+        {% endif %}
+
 </div>
 
 

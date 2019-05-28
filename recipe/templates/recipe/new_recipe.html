@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>This is a recipe creation page</h1>
+<h1 id="pageTitle" >New Recipe</h1>
     <form  enctype="multipart/form-data" action = '.' method='POST'>
         {% csrf_token %}
         {{ form | crispy }}
@@ -19,7 +19,7 @@
             </div>
         </div>
         {% endfor %}
-        <input type = 'submit' value='Save Recipe' />
+        <input type = 'submit' class="btn " id="searchButton" value='Save Recipe' />
     </form>
 
 

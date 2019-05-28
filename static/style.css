@@ -3,23 +3,34 @@
     left: 0px;
     bottom: 0;
     width: 100%;
-    height: 60px;
-    line-height: 60px;
-    background-color: #f4fcff;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(255, 153, 51, 0.76);
+    font-size: medium;
 }
 
 body{
-    margin-bottom: 80px;
+    margin-bottom: 70px;
 }
 
 .dropdown-content {
     right: 0;
 }
 
+#searchButton{
+    background:#f93;
+    color:#FFFFFF;
+    size:auto;
+}
+
 #dropdownMenuLink{
     background: #FFFFFF;
     color: #f93;
     font-weight: bold;
+}
+
+#id_searchInput{
+    size: large;
 }
 
 .navbar-title{
@@ -37,6 +48,29 @@ body{
 
 #profile-img {
     border-radius: 50%;
+}
+
+#pageTitle{
+    color: #ff7018;
+    text-align: center;
+}
+
+#plus{
+    color: #f1fff7;
+}
+
+#addRecipe{
+    background: #9dcf48;
+
+}
+
+#colSearch{
+    padding-right: 0;
+}
+
+#trash{
+    alignment: right;
+    color: #d20f00;
 }
 
 .card-title-orange{

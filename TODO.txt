@@ -1,12 +1,8 @@
-PAGINATION:
--se non ci sono recipes, togliere completamente il paginator
-
 RECIPES:
 -Modifica model-> Aggiungere campo: Data di inserimento ricetta
 -vedere se si può limitare il numero di ingrediente mostrati nei quadrati delle ricette
 -sistemare la suddivisione degli ingrediente (split(","))
 -aggiungere la possibilità di salvare una recipe
--modificare username nell'elenco delle ricette di un singolo user, mostra il current user e non lo user  che ha creato la ricetta
 -FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET FORMSET!!
 
 DETAILRECIPE:
@@ -15,38 +11,19 @@ DETAILRECIPE:
 -aggiungere la possibilità di cancellare una ricetta da qui
 
 MYRECIPE:
--spostare la possibilità di aggiungere una nuova ricetta nella pagine myRecipe
--aggiungere barra di ricerca alla pagina myRecipe
--aggiungere titolo "myrecipe"
--quando lo user nella schermata di myrecipe schiaccia sul creatore della ricetta (=se stesso) reindirizzarlo al suo account
-
-SAVEDRECIPE:
--applicare la stessa barra della homepage
--togliere il titolo--> centrarlo, lettere maiuscolo, colorarlo
+-controllare querySet filtrato nelle singole view della pagina (lascialo a me,so cosa intendo)
 
 VIEWS:
 -homepage view-> aggiungere order by data di inserimento per thumbnails di default
 -modificare account page --> ridesign
 
-EXTRA TIME:
--Icona cestino nel recipe thumbnail
-
-FOOTER:
--aggiungere un testo serio al footer + redesign
-
 NAVBAR:
--redisegn -->color?
 -navbar dispositivi piccolissimi 
 
 GENERICS:
--fissare lunghezza minima password
--ingrandire la barra di ricerca e colorare il bottone e cambiare il nome del bottone --> aggiungere frase/messaggio quando non c'è nessun risultato per la ricerca
--aggiungere collegamento alla pagina di creazione di una nuova ricetta nel menù della navbar
 -rendere i titoli delle pagine scalabili
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 APPUNTI:
-
 webpassw tool
-
-
 Pagination : https://docs.djangoproject.com/en/2.2/topics/pagination/
