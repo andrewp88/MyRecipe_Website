@@ -61,7 +61,8 @@ def user_login_view(request):
                 print("user autentication succes:",user)
                 return redirect('/home')
             else:
-               return HttpResponseRedirect('/fail/url/')
+                messages.add_message(request, messages.INFO, 'Password or Email are wrong.')
+                return redirect("/login")
 
     form = UserLoginForm()
     return render(request, 'users/login.html', context)

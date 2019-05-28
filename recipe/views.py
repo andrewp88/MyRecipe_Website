@@ -54,18 +54,9 @@ def my_recipe_view(request):
 
 def saved_recipe_view(request):
     if request.user.is_authenticated:
-        form = SearchForm(request.GET)
-        recipes=[]
-
-        if(request.GET.get("searchInput")):
-            if form.is_valid():
-                searchInput=request.GET["searchInput"]
-                recipes = Recipe.objects.filter(title__icontains=searchInput)
-                if(not recipes.count()):
-                    messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
-
-
-        context = {"form":form,"recipes":recipes}
+        user=request.user
+        recipes=user.savedRecipe.all()
+        context = {"recipes":recipes}
         return render(request,'recipe/savedRecipe.html',context)
     else:
         messages.add_message(request, messages.INFO, 'You have to login in order to access the page')

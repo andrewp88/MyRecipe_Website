@@ -46,6 +46,14 @@ body{
     width:auto;
 }
 
+.navbar{
+    border-bottom: 1px solid  #93c572;
+    position: sticky;
+    background: white;
+}
+
+
+
 #profile-img {
     border-radius: 50%;
 }
@@ -60,7 +68,8 @@ body{
 }
 
 #addRecipe{
-    background: #9dcf48;
+    background: #93c572;
+    border: 1px solid black;
 
 }
 
