@@ -3,6 +3,7 @@ from .models import Recipe
 from categories.models import Category
 from steps.models import Step
 from django.forms import modelformset_factory
+from django.forms import inlineformset_factory
 
 
 class SearchForm(forms.Form):
@@ -88,39 +89,32 @@ class RecipeCreateForm(forms.ModelForm):
             'shared',
         ]
 
-
 class StepCreateForm(forms.ModelForm):
-
-    description = forms.CharField(
-        label="",
-        widget=forms.TextInput(attrs={
-            'placeholder':'Write the preparation step of the recipe here'
-            })
-    )
-    img1 = forms.ImageField(
-        label="Load an image of the preparation step",
-        error_messages={'invalid': "Image files only"},
-        widget=forms.FileInput(),
-        required=False)
-    img2 = forms.ImageField(
-        label="Load an image of the preparation step",
-        error_messages={'invalid': "Image files only"},
-        widget=forms.FileInput(),
-        required=False)
-
     class Meta:
         model = Step
-        fields = [
-            'description',
-            'img1',
-            'img2',
-        ]
+        exclude = ('order',)
+
+    description = forms.CharField(
+        label="Step Procedure",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Write the preparation step of the recipe here'
+        })
+    )
+
+    img1 = forms.ImageField(
+        label="Image 1",
+        error_messages={'invalid': "Image files only"},
+        widget=forms.FileInput(),
+        required=False)
+
+    img2 = forms.ImageField(
+        label="Image 2",
+        error_messages={'invalid': "Image files only"},
+        widget=forms.FileInput(),
+        required=False)
+
+
+StepCreateFormSet = inlineformset_factory(Recipe,Step,form=StepCreateForm,extra=1)
 
 
 
-
-
-
-def getStepModelFormset():
-    StepModelFormset = modelformset_factory(Step,form=StepCreateForm,extra=0,min_num=0,max_num=0)
-    return StepModelFormset
