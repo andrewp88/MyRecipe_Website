@@ -23,6 +23,9 @@ def my_recipe_view(request):
     if request.user.is_authenticated:
         userId = request.user.id
         queryset=Recipe.objects.filter(fk_user_id=userId)
+        if(not queryset.count()):
+            messages.add_message(request, messages.INFO, 'You have not created any recipe yet.')
+
 
         form = SearchForm(request.GET)
         if(request.GET.get("searchInput")):
@@ -57,6 +60,9 @@ def saved_recipe_view(request):
     if request.user.is_authenticated:
         user=request.user
         recipes=user.savedRecipes.all()
+        if(not recipes.count()):
+            messages.add_message(request, messages.INFO, 'There are no saved recipes at the moment.')
+
         context = {"recipe_list":recipes}
         return render(request,'recipe/savedRecipe.html',context)
     else:
@@ -96,6 +102,8 @@ def homepage(request):
 
 
     else: querySet=Recipe.objects.filter(shared=True).order_by('-id')
+    if(not querySet.count()):
+        messages.add_message(request, messages.INFO, 'There are no shared recipes at the moment.')
 
 
     paginator = Paginator(querySet, 12)
