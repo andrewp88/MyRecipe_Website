@@ -57,7 +57,7 @@ def saved_recipe_view(request):
     if request.user.is_authenticated:
         user=request.user
         recipes=user.savedRecipes.all()
-        context = {"recipes":recipes}
+        context = {"recipe_list":recipes}
         return render(request,'recipe/savedRecipe.html',context)
     else:
         messages.add_message(request, messages.INFO, 'You have to login in order to access the page')
