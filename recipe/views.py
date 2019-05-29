@@ -56,7 +56,7 @@ def my_recipe_view(request):
 def saved_recipe_view(request):
     if request.user.is_authenticated:
         user=request.user
-        recipes=user.savedRecipe.all()
+        recipes=user.savedRecipes.all()
         context = {"recipes":recipes}
         return render(request,'recipe/savedRecipe.html',context)
     else:
