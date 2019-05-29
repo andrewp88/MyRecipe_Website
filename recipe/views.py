@@ -91,10 +91,11 @@ def homepage(request):
                 querySetS=Recipe.objects.filter(shared=True)
                 querySetTem=querySetCreation(arraySearch).order_by('-id')
                 querySet=querySetS.intersection(querySetTem)
+                if(not querySet.count()):
+                    messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
+
 
     else: querySet=Recipe.objects.filter(shared=True).order_by('-id')
-    if(not querySet.count()):
-        messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
 
 
     paginator = Paginator(querySet, 12)
