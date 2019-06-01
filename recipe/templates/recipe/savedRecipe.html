@@ -14,7 +14,7 @@
                         {% if recipe_list %}
                             {% for recipe in recipe_list %}
                                 <div class="col-12 col-md-6 col-lg-4">
-                                    <div class="card mt-2">
+                                    <div data-card-recipe-id="{{ recipe.id }}" class="card mt-2">
                                         <a href="{{recipe.get_absolute_url}}"><img class="card-img-top" src="{{ recipe.mainImage.url }}" alt="Recipe Main Image"></a>
                                         <div class="card-body">
                                             <h4 class="card-title"><a class="card-title-orange" href="{{recipe.get_absolute_url}}" title="View Product">{{ recipe.title }}</a></h4>
@@ -52,7 +52,7 @@
 
                                             <div class="row">
                                                 <div class="col" align="right">
-                                                    <a  href="" class="btn heartjs" ><i class="fa fa-heart fa-lg align-middle"></i></a>
+                                                    <a  href="" data-recipe-id="{{ recipe.id }}" class="ajax-save btn heartjs" ><i class="fa fa-heart fa-lg align-middle"></i></a>
                                                 </div>
 
                                             </div>
@@ -88,4 +88,52 @@
         </div>
         {% endif %}
     </div>
+
+     <script>
+    $(document).ready(function(){
+      $(".ajax-save").click(function(){
+          event.preventDefault();
+          if(this.classList.contains("heart")){
+              this.classList.replace("heart","heartjs");
+          }else{
+              this.classList.replace("heartjs","heart");
+          }
+
+          recipeid = this.getAttribute('data-recipe-id')
+            $.ajax({
+              type:"POST",
+              url:"../recipe/"+recipeid+"/save/",
+              data: "{'parameter1': '44906'}",
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) { handleFormSuccess(repId=recipeid) },
+              error: function(ts) { handleFormError() }
+            })
+      });
+        function handleFormSuccess(data, textStatus, jqXHR){
+            console.log("success")
+            console.log(data);
+            console.log(textStatus);
+            console.log(jqXHR);
+            removeCard(data);
+            //$myForm.reset(); // reset form data
+        }
+
+        function handleFormError(jqXHR, textStatus, errorThrown){
+            console.log("failure")
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown)
+        }
+        function removeCard(id){
+            $('.card').each(function(i, obj) {
+                var cardId = obj.getAttribute('data-card-recipe-id');
+                if (cardId == id){
+                    this.remove()
+                }
+            });
+        }
+
+    });
+    </script>
 {% endblock %}
