@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_control
 # Create your views here.
@@ -109,8 +110,9 @@ def homepage(request):
     paginator = Paginator(querySet, 12)
     page = request.GET.get('page')
     recipe_list = paginator.get_page(page)
+    user_saved = request.user.savedRecipes.all()
 
-    context = {"form":form,"recipe_list":recipe_list}
+    context = {"form":form,"recipe_list":recipe_list,"user_saved":user_saved}
     return render(request,'recipe/homepage.html',context)
 
 def splitSearchInput(searchInput):
@@ -225,17 +227,24 @@ def delete_recipe_view(request,my_id):
 
 
 def saveRecipe(request,my_id): #ADD A RECIPE TO SAVED OR REMOVES IT FROM SAVED
-    if request.user.is_authenticated:
-        recipe = get_object_or_404(Recipe,id=my_id)
-        user=request.user
-        html = "empty"
-        if( user.savedRecipes.filter(id=recipe.id).exists()):
-            user.savedRecipes.remove(recipe)
-            html = "<h1>removed</h1>"
-        else:
-            user.savedRecipes.add(recipe)
-            html = "<h1>saved</h1>"
-    return HttpResponse(html)
+    if request.is_ajax():
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe,id=my_id)
+            user=request.user
+            html = "empty"
+            if( user.savedRecipes.filter(id=recipe.id).exists()):
+                user.savedRecipes.remove(recipe)
+                data = {
+                    'message': "Successfully removed saved recipe."
+                }
+            else:
+                user.savedRecipes.add(recipe)
+                data = {
+                    'message': "Successfully saved a recipe."
+                }
+        return JsonResponse(data)
+    else:
+        return PermissionError
 
 
 class RecipeCreateView(LoginRequiredMixin,CreateView):
