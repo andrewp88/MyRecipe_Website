@@ -65,7 +65,7 @@
                                             </p>
                                             <div class="row">
                                                 <div class="col">
-                                                    <p><span class="font-weight-bold">Ingredients</span>:{{ recipe.ingredients }}</p>
+                                                    <p><span class="font-weight-bold">Ingredients</span>:{{ recipe.ingredients|truncatewords:8 }}</p>
                                                 </div>
                                             </div>
                                             {% if user.is_authenticated %}
