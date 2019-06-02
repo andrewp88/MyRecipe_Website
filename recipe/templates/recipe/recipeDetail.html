@@ -33,9 +33,15 @@
                         <div class="col-10 border-bottom pb-2">
                             <h1 class="card-title-orange text-left mt-2">{{ recipe.title|capfirst }}</h1>
                         </div>
+                        {% if user.is_authenticated %}
                         <div class="col-2 border-bottom pb-2" align="right">
-                            <a  href="" class="btn heart" ><i style="font-size:2em;" class="pt-2 fa fa-heart fa-lg align-middle"></i></a>
+                            {% if recipe in user_saved %}
+                                <a  href="" class="ajax-save btn heartjs" data-recipe-id="{{ recipe.id }}" ><i style="font-size:2em;" class="pt-2 fa fa-heart fa-lg align-middle"></i></a>
+                            {% else %}
+                                <a  href="" class="ajax-save btn heart" data-recipe-id="{{ recipe.id }}" ><i style="font-size:2em;" class="pt-2 fa fa-heart fa-lg align-middle"></i></a>
+                            {% endif %}
                         </div>
+                        {% endif %}
                     </div>
                     <div class="row">
                          <div class="col pt-2">
@@ -123,6 +129,40 @@
                 <div class="col-2"></div>
         </div>
     </div>
+     <script>
+    $(document).ready(function(){
+      $(".ajax-save").click(function(){
+          event.preventDefault();
 
+          if(this.classList.contains("heart")){
+              this.classList.replace("heart","heartjs");
+          }else{
+              this.classList.replace("heartjs","heart");
+          }
 
+          recipeid = this.getAttribute('data-recipe-id')
+            $.ajax({
+              type:"POST",
+              url:"../"+recipeid+"/save/",
+              data: "{'parameter1': '44906'}",
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) { handleFormSuccess },
+              error: function(ts) { handleFormError() }
+            })
+      });
+      function handleFormSuccess(data, textStatus, jqXHR){
+            console.log(data)
+            console.log(textStatus)
+            console.log(jqXHR)
+        }
+
+        function handleFormError(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR)
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+
+    });
+    </script>
 {% endblock %}

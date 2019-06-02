@@ -110,7 +110,10 @@ def homepage(request):
     paginator = Paginator(querySet, 12)
     page = request.GET.get('page')
     recipe_list = paginator.get_page(page)
-    user_saved = request.user.savedRecipes.all()
+    if (request.user.is_authenticated):
+        user_saved = request.user.savedRecipes.all()
+    else:
+        user_saved = Recipe.objects.none()
 
     context = {"form":form,"recipe_list":recipe_list,"user_saved":user_saved}
     return render(request,'recipe/homepage.html',context)
@@ -200,10 +203,16 @@ def querySetCreation(searchInput):
 def detail_recipe_view(request,my_id):
     recipe = get_object_or_404(Recipe,id=my_id)
     steps = Step.objects.filter(recipe__id=my_id).order_by('id')
+    if (request.user.is_authenticated):
+        user_saved = request.user.savedRecipes.all()
+    else:
+        user_saved = Recipe.objects.none()
+
     if (recipe.shared or ( request.user.is_authenticated and recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
         context = {
             "recipe":recipe,
-            "steps":steps
+            "steps":steps,
+            "user_saved":user_saved
         }
         return render(request,"recipe/recipeDetail.html",context)
     else:

@@ -68,6 +68,7 @@
                                                     <p><span class="font-weight-bold">Ingredients</span>:{{ recipe.ingredients }}</p>
                                                 </div>
                                             </div>
+                                            {% if user.is_authenticated %}
                                             <div class="row">
                                                 <div class="col" align="right">
                                                     {% if recipe in user_saved %}
@@ -75,9 +76,9 @@
                                                     {% else %}
                                                         <a  href="" class="ajax-save btn heart" data-recipe-id="{{ recipe.id }}" ><i class="fa fa-heart fa-lg align-middle"></i></a>
                                                     {% endif %}
-
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
