@@ -26,7 +26,7 @@ class RecipeCreateForm(forms.ModelForm):
     mainImage=forms.ImageField(
         label="Recipe Presentation Image:",
         widget=forms.FileInput(),
-        required=False,
+        required=True,
     )
     portions = forms.CharField(
         label='Portions',
@@ -46,12 +46,12 @@ class RecipeCreateForm(forms.ModelForm):
         )
     )
     prepTime = forms.DecimalField(
-        label='Preparation time',
+        label='Preparation time (min.)',
         initial=0,
         widget=forms.NumberInput(attrs={'step':'1','min':'0','max':'300'})
     )
     cookTime = forms.DecimalField(
-        label='Cooking time',
+        label='Cooking time (min.)',
         initial=0,
         widget=forms.NumberInput(attrs={'step':'1','min':'0','max':'300'})
     )
@@ -95,9 +95,11 @@ class StepCreateForm(forms.ModelForm):
         exclude = ('order',)
 
     description = forms.CharField(
+        max_length=220,
         label="Step Procedure",
         required=True,
         widget=forms.TextInput(attrs={
+            "size":60,
             "rows": 5,
             'cols': 6,
             'placeholder': 'Write the preparation step of the recipe here'
