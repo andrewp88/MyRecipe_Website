@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_control
 # Create your views here.
@@ -109,8 +110,12 @@ def homepage(request):
     paginator = Paginator(querySet, 12)
     page = request.GET.get('page')
     recipe_list = paginator.get_page(page)
+    if (request.user.is_authenticated):
+        user_saved = request.user.savedRecipes.all()
+    else:
+        user_saved = Recipe.objects.none()
 
-    context = {"form":form,"recipe_list":recipe_list}
+    context = {"form":form,"recipe_list":recipe_list,"user_saved":user_saved}
     return render(request,'recipe/homepage.html',context)
 
 def splitSearchInput(searchInput):
@@ -198,10 +203,16 @@ def querySetCreation(searchInput):
 def detail_recipe_view(request,my_id):
     recipe = get_object_or_404(Recipe,id=my_id)
     steps = Step.objects.filter(recipe__id=my_id).order_by('id')
+    if (request.user.is_authenticated):
+        user_saved = request.user.savedRecipes.all()
+    else:
+        user_saved = Recipe.objects.none()
+
     if (recipe.shared or ( request.user.is_authenticated and recipe.fk_user.id == request.user.id)): #check the rights of the user to see this recipe, or it is shared or it is your property
         context = {
             "recipe":recipe,
-            "steps":steps
+            "steps":steps,
+            "user_saved":user_saved
         }
         return render(request,"recipe/recipeDetail.html",context)
     else:
@@ -225,17 +236,24 @@ def delete_recipe_view(request,my_id):
 
 
 def saveRecipe(request,my_id): #ADD A RECIPE TO SAVED OR REMOVES IT FROM SAVED
-    if request.user.is_authenticated:
-        recipe = get_object_or_404(Recipe,id=my_id)
-        user=request.user
-        html = "empty"
-        if( user.savedRecipes.filter(id=recipe.id).exists()):
-            user.savedRecipes.remove(recipe)
-            html = "<h1>removed</h1>"
-        else:
-            user.savedRecipes.add(recipe)
-            html = "<h1>saved</h1>"
-    return HttpResponse(html)
+    if request.is_ajax():
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe,id=my_id)
+            user=request.user
+            html = "empty"
+            if( user.savedRecipes.filter(id=recipe.id).exists()):
+                user.savedRecipes.remove(recipe)
+                data = {
+                    'message': "Successfully removed saved recipe."
+                }
+            else:
+                user.savedRecipes.add(recipe)
+                data = {
+                    'message': "Successfully saved a recipe."
+                }
+        return JsonResponse(data)
+    else:
+        return PermissionError
 
 
 class RecipeCreateView(LoginRequiredMixin,CreateView):
