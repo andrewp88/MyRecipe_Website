@@ -102,9 +102,10 @@ def homepage(request):
                     messages.add_message(request, messages.INFO, 'There are no recipes matching your search.')
 
 
-    else: querySet=Recipe.objects.filter(shared=True).order_by('-id')
-    if(not querySet.count()):
-        messages.add_message(request, messages.INFO, 'There are no shared recipes at the moment.')
+    else:
+        querySet=Recipe.objects.filter(shared=True).order_by('-id')
+        if(not querySet.count()):
+            messages.add_message(request, messages.INFO, 'There are no shared recipes at the moment.')
 
 
     paginator = Paginator(querySet, 12)
