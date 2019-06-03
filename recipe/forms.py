@@ -99,7 +99,6 @@ class StepCreateForm(forms.ModelForm):
         label="Step Procedure",
         required=True,
         widget=forms.TextInput(attrs={
-            "size":60,
             "rows": 5,
             'cols': 6,
             'placeholder': 'Write the preparation step of the recipe here'
